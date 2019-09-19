@@ -13,30 +13,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 ///////////////////////////
 
 //Morgan Logger
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan('dev'));
+}
 
 //BodyParser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//Custom Middleware
-const myMiddle = (req, res, next) => {
-  console.log('Hello from middleware!');
-  next();
-}
-app.use(myMiddle);
-
-const dateMiddle = (req, res, next) => {
-  const date = new Date();
-  console.log(date);
-  next();
-}
-app.use(dateMiddle);
-
-const singleMiddle = (req, res, next) => {
-  console.log('Single Middle!');
-  next();
-}
 
 ////////////////////////////
 ///////----Routes----//////
