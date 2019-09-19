@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { checkId, getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
+const { checkId, checkBody, getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
 
 //Use Param middleware to check id on routes with :id
 router.param('id', checkId);
@@ -12,7 +12,7 @@ router.get('/', getAllTours);
 router.get('/:id', getTour);
 
 //POST - /api/v1/tours
-router.post('/', createTour);
+router.post('/', checkBody, createTour);
 
 //PATCH - /api/v1/tours/:id
 //Not really updating, just simulating
