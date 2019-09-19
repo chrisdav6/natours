@@ -1,8 +1,12 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const tourRouter = require('./routes/tours');
 const userRouter = require('./routes/users');
 const app = express();
+
+//Serve Static Folders
+app.use(express.static(path.join(__dirname, 'public')));
 
 ////////////////////////////
 /////----Middleware----////
