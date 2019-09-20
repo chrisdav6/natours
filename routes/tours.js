@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { checkId, checkBody, getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
-
-//Use Param middleware to check id on routes with :id
-router.param('id', checkId);
+const { checkBody, getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
 
 //GET - /api/v1/tours
 router.get('/', getAllTours);

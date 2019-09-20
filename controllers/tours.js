@@ -1,18 +1,4 @@
-const fs = require('fs');
-const tours = JSON.parse(fs.readFileSync(`./dev-data/data/tours-simple.json`));
-
-const checkId = (req, res, next, val) => {
-  console.log(`The id is: ${req.params.id}`);
-
-  if (req.params.id * 1 > tours.length) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'No tour found with that ID!'
-    });
-  }
-
-  next();
-}
+const Tour = require('../models/tourModel');
 
 const checkBody = (req, res, next) => {
   if (!req.body.name || !req.body.price) {
@@ -25,13 +11,15 @@ const checkBody = (req, res, next) => {
   next();
 }
 
-const getAllTours = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    results: tours.length,
-    data: {
-      tours
-    }
+const getAllTours = async (req, res) => {
+  const tours = await Tour.find({}).then((foundTours) => {
+    res.status(200).json({
+      status: 'success',
+      results: foundTours.length,
+      data: {
+        foundTours
+      }
+    });
   });
 }
 
@@ -48,20 +36,11 @@ const getTour = (req, res) => {
 }
 
 const createTour = (req, res) => {
-  //Create ID
-  const newId = tours[tours.length - 1].id + 1;
-  //Create new Tour
-  const newTour = Object.assign({ id: newId }, req.body);
-  //Add new tour to tours array
-  tours.push(newTour);
-  //Save into file
-  fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), (err) => {
-    res.status(201).json({
-      status: 'success',
-      data: {
-        tour: newTour
-      }
-    });
+  res.status(201).json({
+    status: 'success',
+    data: {
+      tour: newTour
+    }
   });
 }
 
@@ -92,7 +71,6 @@ const deleteTour = (req, res) => {
 }
 
 module.exports = {
-  checkId,
   checkBody,
   getAllTours,
   getTour,
