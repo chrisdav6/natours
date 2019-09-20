@@ -33,6 +33,20 @@ const tourSchema = new mongoose.Schema({
 //Model
 const Tour = mongoose.model('Tour', tourSchema);
 
+//Testing the Model
+const testTour = new Tour({
+  name: 'The Ding Dang Park Camper!',
+  rating: 2.5,
+  price: 8675309
+});
+
+//Save to DB
+testTour.save().then((doc) => {
+  console.log(doc);
+}).catch((err) => {
+  console.log("Error: ", err);
+});
+
 //Start Server
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
