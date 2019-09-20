@@ -13,14 +13,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 ///////////////////////////
 
 //Morgan Logger
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
 //BodyParser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 
 ////////////////////////////
 ///////----Routes----//////
