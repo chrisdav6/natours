@@ -1,18 +1,7 @@
 const Tour = require('../models/tourModel');
 
-const checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Must containe a Name and Price!'
-    });
-  }
-
-  next();
-}
-
 const getAllTours = async (req, res) => {
-  const tours = await Tour.find({}).then((foundTours) => {
+  await Tour.find({}).then((foundTours) => {
     res.status(200).json({
       status: 'success',
       results: foundTours.length,
@@ -35,13 +24,21 @@ const getTour = (req, res) => {
   });
 }
 
-const createTour = (req, res) => {
-  res.status(201).json({
-    status: 'success',
-    data: {
-      tour: newTour
-    }
-  });
+const createTour = async (req, res) => {
+  try {
+    const newTour = await Tour.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Invalid data sent!'
+    });
+  }
 }
 
 const updateTour = (req, res) => {
@@ -71,7 +68,6 @@ const deleteTour = (req, res) => {
 }
 
 module.exports = {
-  checkBody,
   getAllTours,
   getTour,
   createTour,

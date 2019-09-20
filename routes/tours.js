@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { checkBody, getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
+const { getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
 
 //GET - /api/v1/tours
 router.get('/', getAllTours);
@@ -9,7 +9,7 @@ router.get('/', getAllTours);
 router.get('/:id', getTour);
 
 //POST - /api/v1/tours
-router.post('/', checkBody, createTour);
+router.post('/', createTour);
 
 //PATCH - /api/v1/tours/:id
 //Not really updating, just simulating
