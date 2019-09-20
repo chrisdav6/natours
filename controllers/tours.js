@@ -73,17 +73,20 @@ const updateTour = async (req, res) => {
   }
 }
 
-const deleteTour = (req, res) => {
-  //Get Tour
-  const tour = tours.find(el => el.id == req.params.id);
+const deleteTour = async (req, res) => {
+  try {
+    const tour = await Tour.findByIdAndDelete(req.params.id);
 
-  res.status(200).json({
-    status: 'success',
-    deleted: true,
-    data: {
-      tour
-    }
-  })
+    res.status(204).json({
+      status: 'success',
+      data: null
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 }
 
 module.exports = {
