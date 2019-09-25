@@ -2,8 +2,20 @@ const Tour = require('../models/tourModel');
 
 const getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    //Build the query
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
 
+    //Delete excluded fields from query object
+    excludedFields.forEach((field) => delete queryObj[field]);
+
+    //Get Query
+    const query = Tour.find(queryObj);
+
+    //Await query to be able to chain other methods in the future
+    const tours = await query;
+
+    //Send Response
     res.status(200).json({
       status: 'success',
       results: tours.length,
