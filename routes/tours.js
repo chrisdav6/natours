@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
+const { aliasTopTours, getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
+
+//GET - /api/v1/tours?limit=5&sort=-ratingsAverage,price
+router.get('/top-5-cheap', aliasTopTours, getAllTours);
 
 //GET - /api/v1/tours
 router.get('/', getAllTours);
