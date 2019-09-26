@@ -76,7 +76,7 @@ tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
-//Document Middleware - runs before the .save() and .create()
+//Document Middleware - runs before .save() and .create()
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
@@ -88,16 +88,22 @@ tourSchema.post('save', function (doc, next) {
   next();
 });
 
-//Query Middleware - runs before the .find() .findOne() .findOneAndDelete() .findOneAndUpdate()
+//Query Middleware - runs before .find() .findOne() .findOneAndDelete() .findOneAndUpdate()
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
-
   this.start = Date.now();
   next();
 });
 
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+  next();
+});
+
+//Aggregation Middleware - runs before .aggregate()
+tourSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  console.log(this.pipeline());
   next();
 });
 
