@@ -58,6 +58,14 @@ const tourSchema = new mongoose.Schema({
   startDates: {
     type: [Date]
   }
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
+
+//Virtual Property - Cannot use in Query
+tourSchema.virtual('durationWeeks').get(function () {
+  return this.duration / 7;
 });
 
 //Model
