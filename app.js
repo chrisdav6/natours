@@ -23,6 +23,12 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//Custom Middleware
+app.use((req, res, next) => {
+  // console.log(req.headers);
+  next();
+});
+
 ////////////////////////////
 ///////----Routes----//////
 ///////////////////////////
