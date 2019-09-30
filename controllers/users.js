@@ -2,7 +2,7 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 
 
-const getAllUsers = catchAsync(async (req, res) => {
+const getAllUsers = catchAsync(async (req, res, next) => {
   //Get Users
   const users = await User.find();
 
@@ -16,10 +16,10 @@ const getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
-const getUser = (req, res) => {
+const getUser = (req, res, next) => {
   //Get ID
   const userId = req.params.id;
-  //Get Tour
+  //Get User
   const user = users.find(el => el._id == userId);
 
   if (!user) {
@@ -37,7 +37,7 @@ const getUser = (req, res) => {
   });
 }
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   //Create ID
   const newId = tours[tours.length - 1].id + 1;
   //Create new Tour
@@ -55,7 +55,7 @@ const createUser = (req, res) => {
   });
 }
 
-const updateUser = (req, res) => {
+const updateUser = (req, res, next) => {
   //Get ID
   const userId = req.params.id;
   //Get Tour
@@ -78,7 +78,7 @@ const updateUser = (req, res) => {
   })
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = (req, res, next) => {
   //Get ID
   const userId = req.params.id;
   //Get Tour
