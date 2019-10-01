@@ -1,13 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const { getAllUsers, getUser, createUser, updateUser, deleteUser } = require('../controllers/users');
-const { signup, login } = require('../controllers/authController');
+const { signup, login, forgotPassword, resetPassword } = require('../controllers/authController');
 
 //POST - /api/v1/users/signup
 router.post('/signup', signup);
 
 //POST - /api/v1/users/login
 router.post('/login', login);
+
+//POST - /api/v1/users/forgotPassword
+router.post('/forgotPassword', forgotPassword);
+
+//POST - /api/v1/users/resetPassword
+router.post('/resetPassword', resetPassword);
 
 //GET - /api/v1/users
 router.get('/', getAllUsers);
