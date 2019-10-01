@@ -12,8 +12,8 @@ router.post('/login', login);
 //POST - /api/v1/users/forgotPassword
 router.post('/forgotPassword', forgotPassword);
 
-//POST - /api/v1/users/resetPassword
-router.post('/resetPassword', resetPassword);
+//PATCH - /api/v1/users/resetPassword/:token
+router.patch('/resetPassword/:token', resetPassword);
 
 //GET - /api/v1/users
 router.get('/', getAllUsers);
