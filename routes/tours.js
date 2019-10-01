@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getMonthlyPlan, getTourStats, aliasTopTours, getAllTours, getTour, createTour, updateTour, deleteTour } = require('../controllers/tours');
-const { protect } = require('../controllers/authController');
+const { protect, restrictTo } = require('../controllers/authController');
 
 //GET - /api/v1/tours/stats
 router.get('/monthly-plan/:year', getMonthlyPlan);
@@ -27,6 +27,6 @@ router.patch('/:id', updateTour);
 
 //DELETE - /api/v1/tours/:id
 //Not really deleting, just simulating
-router.delete('/:id', deleteTour);
+router.delete('/:id', protect, restrictTo('admin', 'lead-guide'), deleteTour);
 
 module.exports = router;

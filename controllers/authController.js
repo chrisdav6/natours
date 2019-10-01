@@ -17,7 +17,8 @@ const signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    passwordChangedAt: req.body.passwordChangedAt
+    passwordChangedAt: req.body.passwordChangedAt,
+    role: req.body.role
   });
 
   //Log new user in
@@ -89,7 +90,20 @@ const protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+const restrictTo = (...roles) => {
+  return (req, res, next) => {
+    //roles is an array ['admin', 'lead-guide']
+    //if role='user' - restrict permission
+    if (!roles.includes(req.user.role)) {
+      return next(new AppError('You do not have permission to perform this action!', 403));
+    }
+
+    next();
+  }
+}
+
 module.exports = {
+  restrictTo,
   protect,
   signup,
   login
